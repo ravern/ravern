@@ -1,4 +1,6 @@
-**Hello! I'm Ravern, a software engineer based in Singapore.**
+# Hello! I'm Ravern.
+
+I'm a software engineer based in Singapore.
 
 I'm interested in programming languages, distributed systems and networks. I believe that the Internet today leaves much to be desired, so I strive to direct my interests towards building a better one for tomorrow.
 
