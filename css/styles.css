@@ -1,0 +1,19 @@
+:root {
+  font-family: serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  max-width: 64ch;
+  margin: 0 auto;
+}
+
+article {
+  line-height: 1.5;
+}
