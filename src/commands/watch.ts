@@ -4,6 +4,16 @@ import { Context } from "../context.ts";
 import { getOutputPath, getRelativePath } from "../helpers.ts";
 import { build } from "./build.ts";
 
+async function tryBuild(context: Context) {
+  const { logger } = context;
+
+  try {
+    await build(context);
+  } catch (error) {
+    logger.error(`Failed to build: ${error.message}.`);
+  }
+}
+
 export async function watch(context: Context) {
   const { logger } = context;
 
@@ -14,9 +24,9 @@ export async function watch(context: Context) {
     }
   }
 
-  await build(context);
+  await tryBuild(context);
   logger.info(`Watching for changes...`);
   for await (const _ of Deno.watchFs(paths, { recursive: true })) {
-    await build(context);
+    await tryBuild(context);
   }
 }

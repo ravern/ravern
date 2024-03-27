@@ -34,13 +34,30 @@ async function copyStaticFiles({ logger }: BuildContext) {
   }
 }
 
-async function buildPage({ eta, logger }: BuildContext, name: string) {
-  logger.info(`Building page '${name}'...`);
-  const pagePath = getRelativePath("content", `${name}.md`);
-  const markdown = await Deno.readTextFile(pagePath);
+async function buildLandingPage(
+  { eta, logger }: BuildContext,
+) {
+  logger.info(`Building landing page...`);
+  const output = eta.render("landing-page.eta", { pagePath: "" });
+  const outputPath = getOutputPath("index.html");
+  await Deno.writeTextFile(outputPath, output);
+}
+
+async function buildPage(
+  { eta, logger }: BuildContext,
+  pagePath: string,
+  templatePath: string = pagePath,
+) {
+  logger.info(`Building page '${pagePath}'...`);
+  const fullPagePath = getRelativePath("content", `${pagePath}.md`);
+  const markdown = await Deno.readTextFile(fullPagePath);
   const { meta, html } = renderMarkdown(markdown);
-  const output = eta.render(`${name}.eta`, { ...meta, html });
-  const outputPath = getOutputPath(`${name}.html`);
+  const output = eta.render(`${templatePath}.eta`, {
+    pagePath,
+    title: meta.title,
+    html,
+  });
+  const outputPath = getOutputPath(`${pagePath}.html`);
   await Deno.writeTextFile(outputPath, output);
 }
 
@@ -54,7 +71,7 @@ export async function build(context: Context) {
   const { logger } = context;
 
   const templatesPath = getRelativePath("templates");
-  const eta = new Eta({ views: templatesPath, useWith: true });
+  const eta = new Eta({ views: templatesPath });
 
   const buildContext = {
     ...context,
@@ -62,7 +79,8 @@ export async function build(context: Context) {
   };
 
   await ensureOutputDir();
-  await buildPage(buildContext, "about");
+  await buildPage(buildContext, "about", "article-page");
+  await buildLandingPage(buildContext);
   await copyStaticFiles(buildContext);
 
   logger.info("Success.");

@@ -1,0 +1,6 @@
+<% layout("layout.eta") %>
+
+<article>
+  <h1><%= it.title %></h1>
+  <%~ it.html %>
+</article>

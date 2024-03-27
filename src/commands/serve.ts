@@ -2,6 +2,15 @@ import { SERVE_PORT } from "../constants.ts";
 import { Context } from "../context.ts";
 import { getOutputPath } from "../helpers.ts";
 
+async function getFileFromFilePath(filePath: string) {
+  const file = await Deno.open(getOutputPath(filePath));
+  const stat = await file.stat();
+  if (stat.isDirectory) {
+    throw new Error("Is a directory");
+  }
+  return file;
+}
+
 async function handleHttp(conn: Deno.Conn) {
   const httpConn = Deno.serveHttp(conn);
   for await (const requestEvent of httpConn) {
@@ -9,14 +18,20 @@ async function handleHttp(conn: Deno.Conn) {
     const filePath = decodeURIComponent(url.pathname);
     let file;
     try {
-      file = await Deno.open(getOutputPath(filePath));
+      file = await getFileFromFilePath(filePath);
     } catch {
       try {
-        file = await Deno.open(getOutputPath(filePath + ".html"));
+        file = await getFileFromFilePath(filePath + ".html");
       } catch {
-        const notFoundResponse = new Response("404 Not Found", { status: 404 });
-        await requestEvent.respondWith(notFoundResponse);
-        continue;
+        try {
+          file = await getFileFromFilePath(filePath + "/index.html");
+        } catch {
+          const notFoundResponse = new Response("404 Not Found", {
+            status: 404,
+          });
+          await requestEvent.respondWith(notFoundResponse);
+          continue;
+        }
       }
     }
     const readableStream = file.readable;
@@ -30,8 +45,10 @@ export async function serve({ logger }: Context) {
   logger.info(`Server listening on port ${SERVE_PORT}...`);
 
   for await (const conn of server) {
-    handleHttp(conn).catch((error) => {
-      logger.error("Failed to handle", error);
-    });
+    try {
+      await handleHttp(conn);
+    } catch (error) {
+      logger.error(`Failed to handle: ${error.message}.`);
+    }
   }
 }

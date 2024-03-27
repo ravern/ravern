@@ -1,0 +1,9 @@
+<% layout("layout.eta") %>
+
+<article>
+  <h1>Hi, I'm Ravern.</h1>
+  <p>
+    I'm a software engineer based in Singapore, interested in programming languages,
+    databases and distributed systems.
+  </p>
+</article>
