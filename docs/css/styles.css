@@ -80,10 +80,16 @@ article {
   line-height: 1.5;
 }
 
+article > * + * {
+  margin-top: 16px;
+}
+
 article h1 {
   font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+}
+
+article img {
+  width: 100%;
 }
 
 article p {
