@@ -1,6 +1,9 @@
 ---
-title: "About"
+head:
+  title: "About"
 ---
+
+![Image of Ravern](https://pub-61ec39a622c6436a944f82cbc69fc1c3.r2.dev/about.jpg)
 
 I'm Ravern, a software engineer based in Singapore.
 

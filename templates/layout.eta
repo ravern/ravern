@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
 
-  <title><%= it.title || "Ravern Koh" %></title>
-  <link rel="stylesheet" type="text/css" href="css/styles.css" />
+  <title><%= it.head?.title ?? it.title ?? "Ravern Koh" %></title>
+  <link rel="stylesheet" type="text/css" href="/css/styles.css" />
 </head>
 
 <body>
@@ -14,9 +14,9 @@
     <nav>
       <a id="navBrand" href="/">Ravern Koh</a>
       <ul>
-        <li><a href="/blog" class="<%= it.pagePath.startsWith('blog') && 'nav-current' %>">Writing</a></li>
-        <li><a href="/travel" class="<%= it.pagePath.startsWith('travel') && 'nav-current' %>">Travel</a></li>
-        <li><a href="/about" class="<%= it.pagePath.startsWith('about') && 'nav-current' %>">About</a></li>
+        <li><a href="/writing" class="<%= it.path.startsWith('writing') && 'nav-current' %>">Writing</a></li>
+        <li><a href="/travel" class="<%= it.path.startsWith('travel') && 'nav-current' %>">Travel</a></li>
+        <li><a href="/about" class="<%= it.path.startsWith('about') && 'nav-current' %>">About</a></li>
       </ul>
       <hr id="navDivider" />
     </nav>

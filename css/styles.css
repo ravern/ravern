@@ -29,10 +29,6 @@ body {
   margin: 0 auto;
 }
 
-body > * + * {
-  margin-top: 24px;
-}
-
 nav {
   padding: 16px;
 }
@@ -80,19 +76,36 @@ article {
   line-height: 1.5;
 }
 
-article h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+article > * + * {
+  margin-top: 24px;
 }
 
-article p {
-  margin-bottom: 1rem;
+article h1 {
+  font-size: 2rem;
 }
 
 article ul,
 article ol {
   padding-inline-start: 16px;
+}
+
+article img {
+  width: 100%;
+}
+
+article code {
+  font-weight: 700;
+}
+
+article pre {
+  background-color: #f4f4f4;
+  padding: 16px 24px;
+  border-radius: 16px;
+  overflow-x: auto;
+}
+
+article pre code {
+  font-weight: 400;
 }
 
 @media screen and (min-width: 1024px) {
@@ -104,6 +117,7 @@ article ol {
     position: fixed;
     left: 0;
     top: 0;
+    padding: 32px;
   }
 
   nav ul {
@@ -117,5 +131,9 @@ article ol {
 
   nav #navDivider {
     display: none;
+  }
+
+  main {
+    padding: 32px 0;
   }
 }

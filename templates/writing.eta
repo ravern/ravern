@@ -1,0 +1,8 @@
+<% layout("layout.eta") %>
+
+<h1>Writing</h1>
+<ul>
+  <% it.pages.forEach((page) => { %>
+    <li><a href="<%= page.path %>"><%= page.title %></a></li>
+  <% }) %>
+</ul>

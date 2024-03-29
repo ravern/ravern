@@ -43,7 +43,6 @@ async function handleHttp(conn: Deno.Conn) {
 export async function serve({ logger }: Context) {
   const server = Deno.listen({ port: SERVE_PORT });
   logger.info(`Server listening on port ${SERVE_PORT}...`);
-
   for await (const conn of server) {
     try {
       await handleHttp(conn);

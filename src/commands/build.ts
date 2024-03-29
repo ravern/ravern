@@ -5,7 +5,7 @@ import { parse as frontmatter } from "https://deno.land/x/frontmatter@v0.1.5/mod
 import { marky } from "https://deno.land/x/marky@v1.1.6/mod.ts";
 
 import { OUTPUT_DIR, STATIC_FILE_DIRS } from "../constants.ts";
-import { getOutputPath, getRelativePath } from "../helpers.ts";
+import { getOutputPath, getPath, getRelativePath } from "../helpers.ts";
 import { Context } from "../context.ts";
 
 interface BuildContext extends Context {
@@ -38,12 +38,12 @@ async function buildLandingPage(
   { eta, logger }: BuildContext,
 ) {
   logger.info(`Building landing page...`);
-  const output = eta.render("landing-page.eta", { pagePath: "" });
+  const output = eta.render("landing.eta", { path: "" });
   const outputPath = getOutputPath("index.html");
   await Deno.writeTextFile(outputPath, output);
 }
 
-async function buildPage(
+async function buildMarkdownPage(
   { eta, logger }: BuildContext,
   pagePath: string,
   templatePath: string = pagePath,
@@ -52,12 +52,53 @@ async function buildPage(
   const fullPagePath = getRelativePath("content", `${pagePath}.md`);
   const markdown = await Deno.readTextFile(fullPagePath);
   const { meta, html } = renderMarkdown(markdown);
-  const output = eta.render(`${templatePath}.eta`, {
-    pagePath,
+  const page = {
+    head: meta.head ?? {},
+    path: pagePath,
     title: meta.title,
     html,
-  });
+  };
+  const output = eta.render(`${templatePath}.eta`, page);
   const outputPath = getOutputPath(`${pagePath}.html`);
+  await fs.ensureDir(dirname(outputPath));
+  await Deno.writeTextFile(outputPath, output);
+  return page;
+}
+
+async function buildPageCollection(
+  context: BuildContext,
+  collectionName: string,
+  collectionPath: string,
+  singleTemplatePath: string,
+  collectionTemplatePath: string = collectionPath,
+) {
+  const { logger } = context;
+  logger.info(`Building page collection '${collectionPath}'...`);
+  const fullCollectionPath = getRelativePath("content", collectionPath);
+  const pages = [];
+  for await (const entry of fs.walk(fullCollectionPath)) {
+    if (!entry.isFile || !entry.name.endsWith(".md")) {
+      continue;
+    }
+    const fullPagePath = entry.path;
+    const pagePath = getPath(
+      collectionPath,
+      fullPagePath
+        .replace(fullCollectionPath, "")
+        .replace(/\.md$/, ""),
+    );
+    const page = await buildMarkdownPage(context, pagePath, singleTemplatePath);
+    pages.push(page);
+  }
+  const output = context.eta.render(`${collectionTemplatePath}.eta`, {
+    head: {
+      title: collectionName,
+    },
+    path: collectionPath,
+    pages,
+  });
+  const outputPath = getOutputPath(`${collectionPath}.html`);
+  await fs.ensureDir(dirname(outputPath));
   await Deno.writeTextFile(outputPath, output);
 }
 
@@ -79,9 +120,10 @@ export async function build(context: Context) {
   };
 
   await ensureOutputDir();
-  await buildPage(buildContext, "about", "article-page");
-  await buildLandingPage(buildContext);
   await copyStaticFiles(buildContext);
+  await buildMarkdownPage(buildContext, "about", "article");
+  await buildPageCollection(buildContext, "Writing", "writing", "article");
+  await buildLandingPage(buildContext);
 
   logger.info("Success.");
 }

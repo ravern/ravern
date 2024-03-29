@@ -1,0 +1,12 @@
+<% layout("layout.eta") %>
+
+<article>
+  <% if (it.title) { %>
+    <h1><%= it.title %></h1>
+  <% } %>
+  <%~ it.html %>
+  <% if (it.date) { %>
+    <hr />
+    <date><%= it.date %></date>
+  <% } %>
+</article>
