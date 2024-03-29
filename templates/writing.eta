@@ -1,8 +1,10 @@
 <% layout("layout.eta") %>
 
-<h1>Writing</h1>
-<ul>
+<ul id="writingList">
   <% it.pages.forEach((page) => { %>
-    <li><a href="<%= page.path %>"><%= page.title %></a></li>
+    <li>
+      <a href="<%= page.path %>"><%= page.title %></a>
+      <date><%= page.date %></date>
+    </li>
   <% }) %>
 </ul>

@@ -1,3 +1,4 @@
+import { format } from "https://deno.land/std@0.160.0/datetime/mod.ts";
 import * as fs from "https://deno.land/std@0.220.1/fs/mod.ts";
 import { dirname } from "https://deno.land/std@0.220.1/path/mod.ts";
 import { Eta } from "https://deno.land/x/eta@v3.1.0/src/index.ts";
@@ -5,8 +6,8 @@ import { parse as frontmatter } from "https://deno.land/x/frontmatter@v0.1.5/mod
 import { marky } from "https://deno.land/x/marky@v1.1.6/mod.ts";
 
 import { OUTPUT_DIR, STATIC_FILE_DIRS } from "../constants.ts";
-import { getOutputPath, getPath, getRelativePath } from "../helpers.ts";
 import { Context } from "../context.ts";
+import { getOutputPath, getPath, getRelativePath } from "../helpers.ts";
 
 interface BuildContext extends Context {
   eta: Eta;
@@ -56,6 +57,7 @@ async function buildMarkdownPage(
     head: meta.head ?? {},
     path: pagePath,
     title: meta.title,
+    date: meta.date ? format(new Date(meta.date), "yyyy-MM-dd") : undefined,
     html,
   };
   const output = eta.render(`${templatePath}.eta`, page);
@@ -90,6 +92,7 @@ async function buildPageCollection(
     const page = await buildMarkdownPage(context, pagePath, singleTemplatePath);
     pages.push(page);
   }
+  pages.sort((pages.))
   const output = context.eta.render(`${collectionTemplatePath}.eta`, {
     head: {
       title: collectionName,

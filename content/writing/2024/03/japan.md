@@ -1,5 +1,5 @@
 ---
-title: "A Journey to the Land of the Rising Sun: Traveling to Japan"
+title: Japan
 date: 2024-03-04
 ---
 

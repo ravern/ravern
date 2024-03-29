@@ -1,5 +1,5 @@
 ---
-title: "Handling Exceptions in Python 3: A Comprehensive Guide"
+title: Exceptions in Python 3
 date: 2024-02-23
 ---
 
