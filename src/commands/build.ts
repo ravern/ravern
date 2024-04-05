@@ -92,7 +92,6 @@ async function buildPageCollection(
     const page = await buildMarkdownPage(context, pagePath, singleTemplatePath);
     pages.push(page);
   }
-  pages.sort((pages.))
   const output = context.eta.render(`${collectionTemplatePath}.eta`, {
     head: {
       title: collectionName,
