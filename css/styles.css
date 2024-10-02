@@ -101,9 +101,17 @@ article h1 {
   font-size: 2rem;
 }
 
+article h2 {
+  font-size: 1.6rem;
+}
+
+article h3 {
+  font-size: 1.2rem;
+}
+
 article ul,
 article ol {
-  padding-inline-start: 16px;
+  padding-inline-start: 24px;
 }
 
 article img {
@@ -124,12 +132,21 @@ article pre code {
   font-weight: 400;
 }
 
+article *:empty {
+  display: none;
+}
+
+#greeting {
+  margin-top: 0;
+  font-size: 1.4rem;
+}
+
 #writingList {
   list-style: none;
 }
 
 #writingList > * + * {
-  margin-top: 16px;
+  margin-top: 24px;
 }
 
 #writingList li {
@@ -169,6 +186,10 @@ article pre code {
 
   main {
     padding: 32px 0;
+  }
+
+  #writingList > * + * {
+    margin-top: 8px;
   }
 
   #writingList li {

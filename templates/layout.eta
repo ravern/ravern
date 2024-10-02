@@ -10,17 +10,19 @@
 </head>
 
 <body>
-  <header>
-    <nav>
-      <a id="navBrand" href="/">Ravern Koh</a>
-      <ul>
-        <li><a href="/writing" class="<%= it.path.startsWith('writing') && 'nav-current' %>">Writing</a></li>
-        <li><a href="/travel" class="<%= it.path.startsWith('travel') && 'nav-current' %>">Travel</a></li>
-        <li><a href="/about" class="<%= it.path.startsWith('about') && 'nav-current' %>">About</a></li>
-      </ul>
-      <hr id="navDivider" />
-    </nav>
-  </header>
+  <% if (!it.path.startsWith('index')) { %>
+    <header>
+      <nav>
+        <a id="navBrand" href="/">Ravern Koh</a>
+        <ul>
+          <li><a href="/writing" class="<%= it.path.startsWith('writing') && 'nav-current' %>">Writing</a></li>
+          <li><a href="/travel" class="<%= it.path.startsWith('travel') && 'nav-current' %>">Travel</a></li>
+          <li><a href="/about" class="<%= it.path.startsWith('about') && 'nav-current' %>">About</a></li>
+        </ul>
+        <hr id="navDivider" />
+      </nav>
+    </header>
+  <% } %>
   <main>
     <%~ it.body %>
   </main>
