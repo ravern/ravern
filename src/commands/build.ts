@@ -8,6 +8,7 @@ import { marky } from "https://deno.land/x/marky@v1.1.6/mod.ts";
 import { OUTPUT_DIR, STATIC_FILE_DIRS } from "../constants.ts";
 import { Context } from "../context.ts";
 import { getOutputPath, getPath, getRelativePath } from "../helpers.ts";
+import { CONFIG } from "../config.ts";
 
 interface BuildContext extends Context {
   eta: Eta;
@@ -35,16 +36,7 @@ async function copyStaticFiles({ logger }: BuildContext) {
   }
 }
 
-async function buildLandingPage(
-  { eta, logger }: BuildContext,
-) {
-  logger.info(`Building landing page...`);
-  const output = eta.render("landing.eta", { path: "" });
-  const outputPath = getOutputPath("index.html");
-  await Deno.writeTextFile(outputPath, output);
-}
-
-async function buildMarkdownPage(
+async function buildPage(
   { eta, logger }: BuildContext,
   pagePath: string,
   templatePath: string = pagePath,
@@ -89,7 +81,7 @@ async function buildPageCollection(
         .replace(fullCollectionPath, "")
         .replace(/\.md$/, ""),
     );
-    const page = await buildMarkdownPage(context, pagePath, singleTemplatePath);
+    const page = await buildPage(context, pagePath, singleTemplatePath);
     pages.push(page);
   }
   const output = context.eta.render(`${collectionTemplatePath}.eta`, {
@@ -123,9 +115,24 @@ export async function build(context: Context) {
 
   await ensureOutputDir();
   await copyStaticFiles(buildContext);
-  await buildMarkdownPage(buildContext, "about", "article");
-  await buildPageCollection(buildContext, "Writing", "writing", "article");
-  await buildLandingPage(buildContext);
+
+  const {
+    pages = [],
+    pageCollections = [],
+  } = CONFIG;
+
+  for await (const page of pages) {
+    await buildPage(buildContext, page.path, page.templatePath);
+  }
+  for await (const pageCollection of pageCollections) {
+    await buildPageCollection(
+      buildContext,
+      pageCollection.name,
+      pageCollection.path,
+      pageCollection.singleTemplatePath,
+      pageCollection.collectionTemplatePath,
+    );
+  }
 
   logger.info("Success.");
 }
