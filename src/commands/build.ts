@@ -46,10 +46,10 @@ async function buildPage(
   const markdown = await Deno.readTextFile(fullPagePath);
   const { meta, html } = renderMarkdown(markdown);
   const page = {
-    head: meta.head ?? {},
+    head: meta?.head ?? {},
     path: pagePath,
-    title: meta.title,
-    date: meta.date ? format(new Date(meta.date), "yyyy-MM-dd") : undefined,
+    title: meta?.title,
+    date: meta?.date ? format(new Date(meta.date), "yyyy-MM-dd") : undefined,
     html,
   };
   const output = eta.render(`${templatePath}.eta`, page);

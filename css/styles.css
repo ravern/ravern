@@ -1,4 +1,9 @@
 :root {
+  --color-background: #ffffff;
+  --color-text: #090909;
+  --color-hyperlink: #005bc3;
+  --color-codeblock: #f4f4f4;
+
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -12,12 +17,12 @@
 }
 
 hr {
-  border-color: black;
+  border-color: var(--color-text);
   border-width: 0.5px;
 }
 
 a {
-  color: black;
+  color: var(--color-text);
   text-decoration: none;
   font-weight: 500;
 }
@@ -28,6 +33,8 @@ body {
   height: 100vh;
   max-width: 64ch;
   margin: 0 auto;
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
 
 nav {
@@ -53,13 +60,13 @@ nav ul > * + * {
 }
 
 nav li > a {
-  color: black;
+  color: var(--color-text);
   font-weight: 400;
 }
 
 nav #navBrand {
   display: block;
-  color: black;
+  color: var(--color-text);
   font-size: 1.2rem;
   font-weight: 700;
 }
@@ -87,7 +94,7 @@ article date {
 }
 
 article a {
-  color: #005bc3;
+  color: var(--color-hyperlink);
 }
 
 article h1 {
@@ -108,7 +115,7 @@ article code {
 }
 
 article pre {
-  background-color: #f4f4f4;
+  background-color: var(--color-codeblock);
   padding: 16px 24px;
   overflow-x: auto;
 }
@@ -170,5 +177,14 @@ article pre code {
 
   #writingList li > * + * {
     margin-top: 0;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #090909;
+    --color-text: #f2f2f2;
+    --color-hyperlink: #007acc;
+    --color-codeblock: #222;
   }
 }

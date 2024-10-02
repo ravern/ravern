@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
 
-  <title><%= it.head?.title ?? it.title ?? "Ravern Koh" %></title>
+  <title><%= it.head.title ?? it.title ?? "Ravern Koh" %></title>
   <link rel="stylesheet" type="text/css" href="/css/styles.css" />
 </head>
 
