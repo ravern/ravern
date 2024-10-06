@@ -1,6 +1,10 @@
 :root {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  --color-background: #ffffff;
+  --color-text: #090909;
+  --color-hyperlink: #007acc;
+
+  font-family: Inconsolata, monospace;
+  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -8,92 +12,55 @@
 * {
   margin: 0;
   padding: 0;
+  letter-spacing: 0.1px;
 }
 
 hr {
-  border-color: black;
+  border-color: var(--color-text);
   border-width: 0.5px;
 }
 
 a {
-  color: #005bc3;
-  text-decoration: none;
-  font-weight: 500;
+  color: var(--color-text);
+  font-weight: bold;
+  text-decoration: underline;
 }
 
 body {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  max-width: 64ch;
+  max-width: 80ch;
   margin: 0 auto;
-}
-
-body > * + * {
-  margin-top: 24px;
-}
-
-nav {
-  padding: 16px;
-}
-
-nav > * + * {
-  margin-top: 16px;
-}
-
-nav ul {
-  list-style-type: none;
-  display: flex;
-  flex-direction: row;
-}
-
-nav ul .nav-current {
-  font-weight: 700;
-}
-
-nav ul > * + * {
-  margin-left: 8px;
-}
-
-nav li > a {
-  color: black;
-  font-weight: 400;
-}
-
-nav #navBrand {
-  display: block;
-  color: black;
-  font-size: 1.2rem;
-  font-weight: 700;
-}
-
-nav #navDivider {
-  display: block;
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
 
 main {
   padding: 16px;
   flex-grow: 1;
-}
-
-article {
   line-height: 1.5;
 }
 
-article > * + * {
+main h1 {
+  font-size: 1.6rem;
+}
+
+main p {
   margin-top: 16px;
 }
 
-article h1 {
-  font-size: 2rem;
+main ul {
+  margin-top: 4px;
+  padding-inline-start: 24px;
 }
 
-article img {
-  width: 100%;
+main ul > li {
+  padding-left: 4px;
 }
 
-article p {
-  margin-bottom: 1rem;
+main a {
+  color: var(--color-hyperlink);
 }
 
 @media screen and (min-width: 1024px) {
@@ -105,6 +72,7 @@ article p {
     position: fixed;
     left: 0;
     top: 0;
+    padding: 32px;
   }
 
   nav ul {
@@ -118,5 +86,29 @@ article p {
 
   nav #navDivider {
     display: none;
+  }
+
+  main {
+    padding: 32px 0;
+  }
+
+  #writingList > * + * {
+    margin-top: 8px;
+  }
+
+  #writingList li {
+    flex-direction: row;
+  }
+
+  #writingList li > * + * {
+    margin-top: 0;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #090909;
+    --color-text: #f2f2f2;
+    --color-hyperlink: #407be0;
   }
 }
