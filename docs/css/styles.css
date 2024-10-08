@@ -23,7 +23,7 @@ hr {
 a {
   color: var(--color-text);
   font-weight: bold;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 body {
@@ -109,6 +109,6 @@ main a {
   :root {
     --color-background: #090909;
     --color-text: #f2f2f2;
-    --color-hyperlink: #407be0;
+    --color-hyperlink: #5e94f1;
   }
 }
