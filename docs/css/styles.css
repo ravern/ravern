@@ -15,11 +15,6 @@
   box-sizing: border-box;
 }
 
-hr {
-  border-color: var(--color-text);
-  border-width: 0.5px;
-}
-
 a {
   color: var(--color-text);
   font-weight: bold;
